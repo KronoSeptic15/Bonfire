@@ -9,41 +9,20 @@ using Utilla;
 using System;
 using UnityEngine.XR;
 
-namespace Grab{
+namespace Bonfire{
     [ModdedGamemode]
     [BepInDependency("org.legoandmars.gorillatag.utilla", "1.5.0")]
     [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
     public class Wol : BaseUnityPlugin
     {
-        bool inRoom;
-        GameObject hand;
-        GameObject cube;
-        Rigidbody Body;
-        bool Up;
-        public float gravity;
-        private readonly XRNode lNode = XRNode.LeftHand;
-        Vector2 joystick;
+        GameObject fire;
+        Vector3 fireScale;
         void OnGameInitialized(object sender, EventArgs e)
         {
-            Body = GorillaLocomotion.Player.Instance.bodyCollider.attachedRigidbody;
-        }
-        
-        void FixedUpdate()
-        {
-            Body.AddForce(Vector3.down * gravity * Body.mass);
-        }
-        void Update()
-        {
-            InputDevices.GetDeviceAtXRNode(lNode).TryGetFeatureValue(CommonUsages.secondary2DAxis, out joystick);
-            if(joystick.y == 1f)
-            {
-                Up = true;
-            }
-            if (Up)
-            {
-                
-
-            }
+            fire = GameObject.Find("Level/forest/campfire");
+            fireScale = fire.transform.localScale;
+            fire.transform.localScale += new Vector3(5f, 5f, 5f);
+            fire.transform.localPosition = new Vector3(12.098f, -1.492f, -0.5f);
         }
         void OnEnable()
         {
@@ -53,14 +32,7 @@ namespace Grab{
         void OnDisable()
         {
             HarmonyPatches.RemoveHarmonyPatches();
-        }
-        [ModdedGamemodeJoin]
-        public void OnJoin(string gamemode){
-            inRoom = true;
-        }
-        [ModdedGamemodeLeave]
-        public void OnLeave(string gamemode){
-            inRoom = false;
+            fire.transform.localScale = fireScale;
         }
     }
 }

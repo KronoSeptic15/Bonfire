@@ -2,7 +2,7 @@
 using System.Reflection;
 using HarmonyLib;
 
-namespace Grab
+namespace Bonfire
 {
 	/// <summary>
 	/// This class handles applying harmony patches to the game.
